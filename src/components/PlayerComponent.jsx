@@ -11,16 +11,23 @@ export default function Player (props) {
       <Grid container>
         <Grid item xs={6}>
           <FormLabel>Enter Name</FormLabel>
-          <TextField></TextField>
+          <TextField 
+            value={props.player.name} 
+            onChange={(e) => props.setName(props.index, e.target.value)}
+          />
         </Grid>
 
         <Grid item xs={6}>
           <FormLabel sx={{ mt: 4 }}>Initiative</FormLabel>
-          <TextField type="number"></TextField>
+          <TextField 
+            type="number" 
+            value={props.player.initiative} 
+            onChange={(e) => props.setInitiative(props.index, e.target.value)}
+          />
         </Grid>
 
         <Button>Submit</Button>
-        <Button onClick={() => {props.removePlayer(props.componentIndex)}}>Remove</Button>
+        <Button onClick={() => {props.removePlayer(props.index)}}>Remove</Button>
 
       </Grid>
         
@@ -31,5 +38,8 @@ export default function Player (props) {
 
 Player.propTypes = {
   removePlayer: PropTypes.func,
-  componentIndex: PropTypes.number,
+  setInitiative: PropTypes.func,
+  setName: PropTypes.func,
+  index: PropTypes.number,
+  player: PropTypes.object,
 }

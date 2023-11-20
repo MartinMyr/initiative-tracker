@@ -2,24 +2,63 @@ import React from "react";
 import InitiativeTableComponent from '../components/InitiativeTableComponent';
 import PlayerComponent from '../components/PlayerComponent';
 import Button from '@mui/material/Button';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Home () {
-  const [timesRenderPlayer, setTimesRenderPlayer] = useState(Array());
+  const playerObj = {
+    'name': '',
+    'initiative': '',
+  };
+
+
+
+  const [playerList, setPlayerList] = useState([playerObj]);
+  const [deletedIndex, setDeletedIndex] = useState([]);
+
+  const setName = (index, value) => {
+
+    let newPlayerList = [...playerList];
+    newPlayerList[index].name = value;
+     
+
+  };
+
+  const setInitiative = (index, value) => {
+
+  };
 
   const addPlayer = () => {
-    setTimesRenderPlayer([...timesRenderPlayer, 0]);
+    setPlayerList(
+      [...playerList, playerObj]
+     
+    ); 
   };
 
   const removePlayer = (index) => {
-    setTimesRenderPlayer([...timesRenderPlayer.splice(index, 1)]);
+    setDeletedIndex([...deletedIndex, index]);
   }
+  
 
   return (
     <div className="home">
       <InitiativeTableComponent />
-      { 
-        timesRenderPlayer.map((_, index) => <PlayerComponent removePlayer={removePlayer} key={index} componentIndex={index}/>) 
+      
+      {
+        playerList.map((item ,i) => {
+          if(deletedIndex.includes(i)){
+            return null;
+          }else{
+            return <PlayerComponent 
+              player={item} 
+              removePlayer={removePlayer} 
+              key={i} 
+              index={i}
+              setName={setName}
+              setInitiative={setInitiative}
+              />
+          }
+           
+        })
       }
       
       <Button onClick={addPlayer}>Add player</Button>
