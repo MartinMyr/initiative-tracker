@@ -1,4 +1,4 @@
-import * as React from 'react';
+import PropTypes from 'prop-types'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -7,7 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-export default function InitiativeTableComponent() {
+export default function InitiativeTableComponent(props) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -18,12 +18,26 @@ export default function InitiativeTableComponent() {
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
-            <TableCell width="50%">Martin</TableCell>
-            <TableCell width="50%">44</TableCell>
-          </TableRow>
+          {
+            props.players.map((player, index) => {
+              if(player.name && !props.deletedIndex.includes(index)){
+                return ( 
+                  <TableRow key={index}>
+                    <TableCell width="50%">{player.name}</TableCell>
+                    <TableCell width="50%">{player.initiative}</TableCell>
+                  </TableRow>
+                )
+              }
+            })
+          }
+          
         </TableBody>
       </Table>
     </TableContainer>
   );
+}
+
+InitiativeTableComponent.propTypes = {
+  players: PropTypes.array,
+  deletedIndex: PropTypes.array,
 }

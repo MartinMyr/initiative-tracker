@@ -1,8 +1,7 @@
-import React from "react";
+import { useState, useEffect } from 'react';
 import InitiativeTableComponent from '../components/InitiativeTableComponent';
 import PlayerComponent from '../components/PlayerComponent';
 import Button from '@mui/material/Button';
-import { useState, useEffect } from 'react';
 
 export default function Home () {
   const playerObj = {
@@ -10,22 +9,9 @@ export default function Home () {
     'initiative': '',
   };
 
-
-
   const [playerList, setPlayerList] = useState([playerObj]);
   const [deletedIndex, setDeletedIndex] = useState([]);
 
-  const setName = (index, value) => {
-
-    let newPlayerList = [...playerList];
-    newPlayerList[index].name = value;
-     
-
-  };
-
-  const setInitiative = (index, value) => {
-
-  };
 
   const addPlayer = () => {
     setPlayerList(
@@ -37,11 +23,21 @@ export default function Home () {
   const removePlayer = (index) => {
     setDeletedIndex([...deletedIndex, index]);
   }
+
+  const updatePlayerList = (index, updatedPlayer) => {
+    const updatedList = playerList.map((player, i) => {
+      if (i === index) {
+        return updatedPlayer;
+      }
+      return player;
+    });
+    setPlayerList(updatedList);
+  };
   
 
   return (
     <div className="home">
-      <InitiativeTableComponent />
+      <InitiativeTableComponent players={playerList} deletedIndex={deletedIndex} />
       
       {
         playerList.map((item ,i) => {
@@ -53,8 +49,7 @@ export default function Home () {
               removePlayer={removePlayer} 
               key={i} 
               index={i}
-              setName={setName}
-              setInitiative={setInitiative}
+              updatePlayerList={updatePlayerList}
               />
           }
            
