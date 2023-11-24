@@ -20,7 +20,7 @@ export default function InitiativeTableComponent(props) {
         <TableBody>
           {
             props.players.map((player, index) => {
-              if(player.name && !props.deletedIndex.includes(index)){
+              if(player.name){
                 return ( 
                   <TableRow key={index}>
                     <TableCell width="50%">{player.name}</TableCell>
@@ -39,5 +39,4 @@ export default function InitiativeTableComponent(props) {
 
 InitiativeTableComponent.propTypes = {
   players: PropTypes.array,
-  deletedIndex: PropTypes.array,
 }

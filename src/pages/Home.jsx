@@ -2,57 +2,54 @@ import { useState, useEffect } from 'react';
 import InitiativeTableComponent from '../components/InitiativeTableComponent';
 import PlayerComponent from '../components/PlayerComponent';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 
 export default function Home () {
-  const playerObj = {
-    'name': '',
-    'initiative': '',
-  };
-
-  const [playerList, setPlayerList] = useState([playerObj]);
+  const [playerList, setPlayerList] = useState([]);
+  const [localPlayerList, setLocalPlayerList] = useState([]);
   const [deletedIndex, setDeletedIndex] = useState([]);
 
+  useEffect(() => {
+    setInterval(() => {
+      fetchInitiatives()
+    }, 5000)
+  }, []);
+
+  const fetchInitiatives = async () => {
+    await axios.get('http://127.0.0.1:8000/initiatives')
+      .then((res) => {
+        setPlayerList(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
 
   const addPlayer = () => {
-    setPlayerList(
-      [...playerList, playerObj]
-     
+    setLocalPlayerList(
+      [...localPlayerList, []]
     ); 
   };
 
   const removePlayer = (index) => {
-    setDeletedIndex([...deletedIndex, index]);
+   setDeletedIndex([...deletedIndex, index]);
   }
-
-  const updatePlayerList = (index, updatedPlayer) => {
-    const updatedList = playerList.map((player, i) => {
-      if (i === index) {
-        return updatedPlayer;
-      }
-      return player;
-    });
-    setPlayerList(updatedList);
-  };
-  
 
   return (
     <div className="home">
-      <InitiativeTableComponent players={playerList} deletedIndex={deletedIndex} />
+      <InitiativeTableComponent players={playerList} />
       
       {
-        playerList.map((item ,i) => {
+        localPlayerList.map((item ,i) => {
           if(deletedIndex.includes(i)){
             return null;
           }else{
             return <PlayerComponent 
-              player={item} 
               removePlayer={removePlayer} 
               key={i} 
               index={i}
-              updatePlayerList={updatePlayerList}
-              />
-          }
-           
+            />
+          } 
         })
       }
       
