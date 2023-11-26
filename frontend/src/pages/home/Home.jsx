@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import InitiativeTableComponent from '../components/InitiativeTableComponent';
-import PlayerComponent from '../components/PlayerComponent';
+import InitiativeTableComponent from '../../components/initiativeTableComponent/InitiativeTableComponent';
+import PlayerComponent from '../../components/playerComponent/PlayerComponent';
 import Button from '@mui/material/Button';
 import axios from 'axios';
+import './home.scss';
 
 export default function Home () {
   const [playerList, setPlayerList] = useState([]);
@@ -53,7 +54,9 @@ export default function Home () {
         })
       }
       
-      <Button onClick={addPlayer}>Add player</Button>
+      <div className="add-player">
+        <Button variant="contained" size="large" onClick={addPlayer}>Add player</Button>
+      </div>
     </div>
   );
 }

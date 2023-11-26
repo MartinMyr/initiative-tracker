@@ -6,6 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import './initiativeTableComponent.scss';
 
 export default function InitiativeTableComponent(props) {
   return (
@@ -13,18 +14,18 @@ export default function InitiativeTableComponent(props) {
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell width="50%">Name</TableCell>
-            <TableCell width="50%">Initiative</TableCell>
+            <TableCell width="50%" sx={{fontSize: '32px', textAlign: 'center'}}>Name:</TableCell>
+            <TableCell width="50%" sx={{fontSize: '32px', textAlign: 'center'}}>Initiative:</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody className='table-body'>
           {
             props.players.map((player, index) => {
               if(player.name){
                 return ( 
                   <TableRow key={index}>
-                    <TableCell width="50%">{player.name}</TableCell>
-                    <TableCell width="50%">{player.initiative}</TableCell>
+                    <TableCell width="50%" sx={{fontSize: '22px', textAlign: 'center'}}>{player.name}</TableCell>
+                    <TableCell width="50%" sx={{fontSize: '22px', textAlign: 'center'}}>{player.initiative}</TableCell>
                   </TableRow>
                 )
               }

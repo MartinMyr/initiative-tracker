@@ -4,13 +4,12 @@ import PropTypes from 'prop-types'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { FormControl, FormLabel, Grid } from '@mui/material';
+import './playerComponent.scss';
 
 export default function Player (props) {
   const [name, setName] = useState('');
   const [id, setId] = useState(null);
-
   const [initiative, setInitiative] = useState('');
-
 
   const createOrUpdatePlayer = async () => {
     let data = {
@@ -32,33 +31,52 @@ export default function Player (props) {
   }
 
   return (
-    <FormControl fullWidth>
+    <FormControl 
+      fullWidth
+      sx={{marginTop: '40px', borderBottom: '1px solid black'}}
+    
+    >
       <Grid container>
-        <Grid item xs={6}>
-          <FormLabel>Enter Name</FormLabel>
+        <Grid  
+          container
+          direction="row"
+          justifyContent="center" 
+          item xs={6}
+        >
           <TextField 
+          label="Enter Name"
             value={name} 
             onChange={(e) => setName(e.target.value)}
           />
         </Grid>
 
-        <Grid item xs={6}>
-          <FormLabel sx={{ mt: 4 }}>Initiative</FormLabel>
+        <Grid 
+          container
+          direction="row"
+          justifyContent="center" 
+          item xs={6}
+        >
           <TextField 
+            label="Initiative"
             type="number" 
             value={initiative} 
             onChange={(e) => setInitiative(e.target.value)}
           />
         </Grid>
 
-        <Button onClick={createOrUpdatePlayer}>Submit</Button>
-        <Button onClick={() => {props.removePlayer(props.index)}}>Remove</Button>
+        <Grid 
+          container
+          direction="row"
+          justifyContent="center"
+        >
+          <Button onClick={createOrUpdatePlayer}>Submit</Button>
+          <Button onClick={() => {props.removePlayer(props.index)}}>Remove</Button>
+        </Grid>
+       
 
       </Grid>
-        
     </FormControl>
   )
-    
 }
 
 Player.propTypes = {
