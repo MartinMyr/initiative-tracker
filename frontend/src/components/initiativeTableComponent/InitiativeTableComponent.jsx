@@ -11,7 +11,7 @@ import './initiativeTableComponent.scss';
 export default function InitiativeTableComponent(props) {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell width="50%" sx={{fontSize: '32px', textAlign: 'center'}}>Name:</TableCell>

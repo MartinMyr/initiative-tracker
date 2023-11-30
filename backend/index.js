@@ -3,12 +3,29 @@ const mongoose = require('mongoose');
 const Initiative = require('./models/initiative.model');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const Pusher = require('pusher');
+
+require('dotenv').config()
+
+const pusher = new Pusher({
+  appId: process.env.APP_ID,
+  key: process.env.KEY,
+  secret: process.env.SECRET,
+  cluster: "eu",
+  useTLS: true
+});
 
 var app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
 const uri="mongodb+srv://martin:bzEzDdPmUwJWKboD@cluster0.ytaqflz.mongodb.net/?retryWrites=true&w=majority";
+
+function triggerEvent() {
+  pusher.trigger("tracker-channel", "update-initiative", {
+    message: "updated initiative"
+  });
+}
 
 async function connect() {
   try {
@@ -37,6 +54,8 @@ app.post('/initiative', async(req, res) => {
     await Initiative.updateOne({_id: id}, obj, {upsert: true});
 
     const updatedInitiative = await Initiative.findById(id);
+    
+    triggerEvent();
 
     res.status(200).json(updatedInitiative);
   } catch (error) {
@@ -44,16 +63,11 @@ app.post('/initiative', async(req, res) => {
   }
 });
 
-app.delete('/initiative/:id', async(req,res) => {
+app.delete('/initiatives', async(req,res) => {
   try {
-    const {id} = req.params;
-    const initiative = await Initiative.findByIdAndDelete(id);
+    const initiative = await Initiative.deleteMany({});
 
-    if(!initiative){
-      return res.status(404).json({message: `Cannot find initiative for id ${id}`})
-    }
-
-    res.status(200).json({message: `Deleted initiative: ${id}`});
+    res.status(200).json({message: 'Successfullt deleted all'});
   } catch (error) {
     res.status(500).json({message: error.message})
   }

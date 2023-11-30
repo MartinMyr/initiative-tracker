@@ -1,4 +1,9 @@
-.add-player{
+.home{
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.add-player, .clear-initiatives{
     display: flex;
     justify-content: center;
     margin-top: 40px;

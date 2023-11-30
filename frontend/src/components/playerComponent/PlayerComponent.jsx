@@ -18,7 +18,7 @@ export default function Player (props) {
       initiative: initiative,
      
     } 
-    console.log(data);
+
     await axios.post('http://127.0.0.1:8000/initiative', data)
     .then((res) => {
       res.data;
@@ -33,7 +33,7 @@ export default function Player (props) {
   return (
     <FormControl 
       fullWidth
-      sx={{marginTop: '40px', borderBottom: '1px solid black'}}
+      sx={{paddingTop: '40px', borderBottom: '1px solid black', background: '#ffff'}}
     
     >
       <Grid container>
