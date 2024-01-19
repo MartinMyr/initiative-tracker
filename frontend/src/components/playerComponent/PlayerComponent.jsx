@@ -19,7 +19,7 @@ export default function Player (props) {
      
     } 
 
-    await axios.post('http://127.0.0.1:8000/initiative', data)
+    await axios.post(`https://gloom-back.myrmarker.com/initiative`, data)
     .then((res) => {
       res.data;
 

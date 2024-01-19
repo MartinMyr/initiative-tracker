@@ -19,7 +19,7 @@ var app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const uri="mongodb+srv://martin:bzEzDdPmUwJWKboD@cluster0.ytaqflz.mongodb.net/?retryWrites=true&w=majority";
+const uri=`mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}.mongodb.net/?retryWrites=true&w=majority`;
 
 function triggerEvent() {
   pusher.trigger("tracker-channel", "update-initiative", {
@@ -77,6 +77,6 @@ connect();
 
 
 
-app.listen(8000, () => {
+app.listen(3000, () => {
    console.log("Server started");
 });

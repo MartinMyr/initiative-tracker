@@ -25,7 +25,7 @@ export default function Home () {
   }, []);
 
   const fetchInitiatives = async () => {
-    await axios.get('http://127.0.0.1:8000/initiatives')
+    await axios.get(`https://gloom-back.myrmarker.com/initiatives`)
       .then((res) => {
         setPlayerList(res.data);
       })
@@ -41,7 +41,7 @@ export default function Home () {
   }
 
   const clearInitiatives = async () => {
-    await axios.delete('http://127.0.0.1:8000/initiatives')
+    await axios.delete(`https://gloom-back.myrmarker.com/initiatives`)
     .then(() => {
       setPlayerList([]);
     })
