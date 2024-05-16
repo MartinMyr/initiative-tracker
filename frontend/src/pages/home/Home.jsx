@@ -12,7 +12,7 @@ export default function Home () {
   const [deletedIndex, setDeletedIndex] = useState([]);
 
   useEffect(() => {
-    fetchInitiatives()
+    fetchInitiatives();
 
     var pusher = new Pusher('7bc92185bcb752acf0f4', {
       cluster: 'eu'
@@ -54,9 +54,18 @@ export default function Home () {
    setDeletedIndex([...deletedIndex, index]);
   }
 
+  const editPlayer = (player) => {
+    
+    if(!localPlayerList.find((item) => item._id === player._id)){
+      setLocalPlayerList(
+        [...localPlayerList, player]
+      );
+    }
+  }
+
   return (
     <div className="home">
-      <InitiativeTableComponent players={playerList} />
+      <InitiativeTableComponent editPlayer={editPlayer} players={playerList} />
       
       {
         localPlayerList.map((item ,i) => {
@@ -64,6 +73,7 @@ export default function Home () {
             return null;
           }else{
             return <PlayerComponent 
+              player={item}
               removePlayer={removePlayer} 
               key={i} 
               index={i}

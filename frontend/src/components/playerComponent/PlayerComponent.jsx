@@ -1,25 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { FormControl, FormLabel, Grid } from '@mui/material';
+import { Checkbox, FormControl, FormLabel, Grid } from '@mui/material';
 import './playerComponent.scss';
 
 export default function Player (props) {
   const [name, setName] = useState('');
   const [id, setId] = useState(null);
   const [initiative, setInitiative] = useState('');
+  const [useEffects, setUseEffects] = useState(false);
+  const [shield, setShield] = useState('');
+  const [retaliate, setRetaliate] = useState('');
+
+  useEffect(() => {
+    setId(props.player?._id || '');
+    setName(props.player?.name || '');
+    setInitiative(props.player?.initiative || '');
+    setShield(props.player?.shield || '');
+    setRetaliate(props.player?.retaliate || '');
+  }, [props.player]);
 
   const createOrUpdatePlayer = async () => {
     let data = {
       ...(id && {_id: id}),
       name: name,
       initiative: initiative,
-     
+      shield: shield,
+      retaliate: retaliate,
     } 
 
-    await axios.post(`https://gloom-back.myrmarker.com/initiative`, data)
+    await axios.post(`http://localhost:3000/initiative`, data)
     .then((res) => {
       res.data;
 
@@ -36,7 +48,7 @@ export default function Player (props) {
       sx={{paddingTop: '40px', borderBottom: '1px solid black', background: '#ffff'}}
     
     >
-      <Grid container>
+      <Grid container justifyContent={'center'}>
         <Grid  
           container
           direction="row"
@@ -54,7 +66,7 @@ export default function Player (props) {
           container
           direction="row"
           justifyContent="center" 
-          item xs={6}
+          item xs={4}
         >
           <TextField 
             label="Initiative"
@@ -63,6 +75,55 @@ export default function Player (props) {
             onChange={(e) => setInitiative(e.target.value)}
           />
         </Grid>
+        <Grid 
+          container
+          direction="row"
+          justifyContent="center" 
+          item xs={2}
+        >
+          <Checkbox 
+            label="Effects?"
+            value={useEffects} 
+            onChange={(e) => setUseEffects(useEffects => !useEffects)}
+          />
+        </Grid>
+
+        {useEffects ?
+          <Grid 
+            container 
+            justifyContent={'center'}
+          >
+            <Grid 
+              container
+              direction="row"
+              justifyContent="center" 
+              item xs={3}
+              marginTop={2}
+            >
+              <TextField 
+                label="Shield"
+                type="number" 
+                value={shield} 
+                onChange={(e) => setShield(e.target.value)}
+              />
+            </Grid>
+            <Grid 
+              container
+              direction="row"
+              justifyContent="center" 
+              item xs={3}
+              marginTop={2}
+            >
+              <TextField 
+                label="Retaliate"
+                type="number" 
+                value={retaliate} 
+                onChange={(e) => setRetaliate(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+          : ''
+        }
 
         <Grid 
           container
