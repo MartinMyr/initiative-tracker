@@ -31,7 +31,7 @@ export default function Player (props) {
       retaliate: retaliate,
     } 
 
-    await axios.post(`http://localhost:3000/initiative`, data)
+    await axios.post(`https://gloom-back.myrmarker.com/initiative`, data)
     .then((res) => {
       res.data;
 
