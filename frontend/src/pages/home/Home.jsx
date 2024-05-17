@@ -52,22 +52,8 @@ export default function Home() {
             });
     };
 
-    const removePlayer = async (index) => {
-        const player = localPlayerList[index];
-        if (player._id) {
-            await axios
-                .delete(`https://gloom-back.myrmarker.com/initiatives/${player._id}`)
-                .then(() => {
-                    setLocalPlayerList(players => players.filter((_, i) => i !== index));
-                    setDeletedIndex([...deletedIndex, index]);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        } else {
-            setLocalPlayerList(players => players.filter((_, i) => i !== index));
-            setDeletedIndex([...deletedIndex, index]);
-        }
+    const removePlayer = (index) => {
+        setDeletedIndex([...deletedIndex, index]);
     };
 
     const editPlayer = (player) => {

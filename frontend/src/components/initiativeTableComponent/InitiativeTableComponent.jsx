@@ -92,7 +92,7 @@ export default function InitiativeTableComponent(props) {
 InitiativeTableComponent.propTypes = {
     players: PropTypes.array,
     editPlayer: PropTypes.func,
-    removePlayer: PropTypes.func.isRequired, // Ensure removePlayer is marked as required
+    removePlayer: PropTypes.func.isRequired,
     updatePlayerList: PropTypes.func,
     createOrUpdatePlayer: PropTypes.func,
 };
