@@ -6,89 +6,121 @@ import axios from 'axios';
 import Pusher from 'pusher-js';
 import './home.scss';
 
-export default function Home () {
-  const [playerList, setPlayerList] = useState([]);
-  const [localPlayerList, setLocalPlayerList] = useState([]);
-  const [deletedIndex, setDeletedIndex] = useState([]);
+export default function Home() {
+    const [playerList, setPlayerList] = useState([]);
+    const [localPlayerList, setLocalPlayerList] = useState([]);
+    const [deletedIndex, setDeletedIndex] = useState([]);
+    const [selectedPlayer, setSelectedPlayer] = useState(null);
 
-  useEffect(() => {
-    fetchInitiatives();
+    useEffect(() => {
+        fetchInitiatives();
 
-    var pusher = new Pusher('7bc92185bcb752acf0f4', {
-      cluster: 'eu'
-    });
+        var pusher = new Pusher('7bc92185bcb752acf0f4', {
+            cluster: 'eu',
+        });
 
-    var channel = pusher.subscribe('tracker-channel');
-    channel.bind('update-initiative', function() {
-      fetchInitiatives();
-    });
-  }, []);
+        var channel = pusher.subscribe('tracker-channel');
+        channel.bind('update-initiative', function () {
+            fetchInitiatives();
+        });
+    }, []);
 
-  const fetchInitiatives = async () => {
-    await axios.get(`https://gloom-back.myrmarker.com/initiatives`)
-      .then((res) => {
-        setPlayerList(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-  }
+    const fetchInitiatives = async () => {
+        await axios
+            .get(`https://gloom-back.myrmarker.com/initiatives`)
+            .then((res) => {
+                setPlayerList(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
-  const addPlayer = () => {
-    setLocalPlayerList(
-      [...localPlayerList, []]
-    ); 
-  }
+    const addPlayer = () => {
+        setLocalPlayerList([...localPlayerList, { name: '', initiative: '', shield: '', retaliate: '' }]);
+    };
 
-  const clearInitiatives = async () => {
-    await axios.delete(`https://gloom-back.myrmarker.com/initiatives`)
-    .then(() => {
-      setPlayerList([]);
-    })
-    .catch((error) => {
-      console.log(error);
-    })
-  }
+    const clearInitiatives = async () => {
+        await axios
+            .delete(`https://gloom-back.myrmarker.com/initiatives`)
+            .then(() => {
+                setPlayerList([]);
+                setLocalPlayerList([]);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
 
-  const removePlayer = (index) => {
-   setDeletedIndex([...deletedIndex, index]);
-  }
+    const removePlayer = async (index) => {
+        const player = localPlayerList[index];
+        if (player._id) {
+            await axios
+                .delete(`https://gloom-back.myrmarker.com/initiatives/${player._id}`)
+                .then(() => {
+                    setLocalPlayerList(players => players.filter((_, i) => i !== index));
+                    setDeletedIndex([...deletedIndex, index]);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else {
+            setLocalPlayerList(players => players.filter((_, i) => i !== index));
+            setDeletedIndex([...deletedIndex, index]);
+        }
+    };
 
-  const editPlayer = (player) => {
-    
-    if(!localPlayerList.find((item) => item._id === player._id)){
-      setLocalPlayerList(
-        [...localPlayerList, player]
-      );
-    }
-  }
+    const editPlayer = (player) => {
+        if (!localPlayerList.find((item) => item._id === player._id)) {
+            setLocalPlayerList([...localPlayerList, player]);
+        }
+        setSelectedPlayer(player);
+    };
 
-  return (
-    <div className="home">
-      <InitiativeTableComponent editPlayer={editPlayer} players={playerList} />
-      
-      {
-        localPlayerList.map((item ,i) => {
-          if(deletedIndex.includes(i)){
-            return null;
-          }else{
-            return <PlayerComponent 
-              player={item}
-              removePlayer={removePlayer} 
-              key={i} 
-              index={i}
-            />
-          } 
-        })
-      }
-      
-      <div className="add-player">
-        <Button variant="contained" size="large" onClick={addPlayer}>Add player</Button>
-      </div>
+    const handleClose = () => {
+        setSelectedPlayer(null);
+    };
 
-      <div className="clear-initiatives">
-        <Button variant="contained" color="error" size="large" onClick={clearInitiatives}>Clear initiatives</Button>
-      </div>
-    </div>
-  );
+    return (
+        <div className="home">
+            <InitiativeTableComponent editPlayer={editPlayer} players={playerList} removePlayer={removePlayer} />
+
+            {localPlayerList.map((item, i) => {
+                if (deletedIndex.includes(i)) {
+                    return null;
+                } else {
+                    return (
+                        <PlayerComponent
+                            player={item}
+                            removePlayer={removePlayer}
+                            key={i}
+                            index={i}
+                            onClose={handleClose}
+                        />
+                    );
+                }
+            })}
+
+            {selectedPlayer && (
+                <PlayerComponent
+                    player={selectedPlayer}
+                    removePlayer={removePlayer}
+                    index={localPlayerList.indexOf(selectedPlayer)}
+                    onClose={handleClose}
+                />
+            )}
+
+            <div className="add-player">
+                <Button variant="contained" size="large" onClick={addPlayer}>
+                    Add player
+                </Button>
+            </div>
+
+            <div className="clear-initiatives">
+                <Button variant="contained" color="error" size="large" onClick={clearInitiatives}>
+                    Clear initiatives
+                </Button>
+            </div>
+        </div>
+    );
 }
