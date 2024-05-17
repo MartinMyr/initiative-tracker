@@ -54,6 +54,7 @@ export default function Home() {
 
     const removePlayer = (index) => {
         setDeletedIndex([...deletedIndex, index]);
+        fetchInitiatives();
     };
 
     const editPlayer = (player) => {

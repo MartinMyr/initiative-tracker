@@ -44,13 +44,23 @@ export default function Player(props) {
             });
     };
 
+    const deletePlayer = async () => {
+        await axios.delete(`https://gloom-back.myrmarker.com/initiative/${id}`)
+            .then(() => {
+                props.removePlayer(props.index);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     const handleSave = () => {
         createOrUpdatePlayer();
         handleClose();
     };
 
     const handleRemove = () => {
-        props.removePlayer(props.index);
+        deletePlayer();
         handleClose();
     };
 
@@ -120,7 +130,8 @@ export default function Player(props) {
                             <Button onClick={handleSave}>Save</Button>
                         </Grid>
                         <Grid item>
-                            <Button onClick={handleRemove}>Remove</Button>
+                            
+                            <Button disabled={!id} onClick={handleRemove}>Remove</Button>
                         </Grid>
                     </Grid>
                 </Grid>
