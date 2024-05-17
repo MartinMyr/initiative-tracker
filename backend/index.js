@@ -73,6 +73,16 @@ app.delete('/initiatives', async(req,res) => {
   }
 });
 
+app.delete('/initiative/:id', async(req,res) => {
+  try {
+    const initiative = await Initiative.deleteOne({_id: req.params.id});
+
+    res.status(200).json({message: 'Successfullt deleted'});
+  } catch (error) {
+    res.status(500).json({message: error.message})
+  }
+});
+
 connect();
 
 
