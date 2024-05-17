@@ -1,0 +1,53 @@
+.table-body {
+    tr {
+        td {
+            font-size: 22px;
+            text-align: center;
+            position: relative;
+
+            .icons {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            td {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            td {
+                font-size: 14px;
+            }
+        }
+    }
+
+    th.title, td.title {
+        font-size: 32px;
+        text-align: center;
+        font-weight: bold;
+
+        @media (max-width: 768px) {
+            font-size: 24px;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 18px;
+        }
+    }
+
+    td.player {
+        font-size: 22px;
+        text-align: center;
+
+        @media (max-width: 768px) {
+            font-size: 18px;
+        }
+
+        @media (max-width: 480px) {
+            font-size: 14px;
+        }
+    }
+}

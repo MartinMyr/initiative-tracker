@@ -82,7 +82,7 @@ export default function Player(props) {
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 400,
+                    width: { xs: 300, sm: 400, md: 500 },
                     bgcolor: 'background.paper',
                     border: '2px solid #000',
                     boxShadow: 24,
@@ -96,6 +96,7 @@ export default function Player(props) {
                             fullWidth
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                            sx={{ fontSize: { xs: '14px', sm: '16px', md: '18px' } }}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -105,6 +106,7 @@ export default function Player(props) {
                             fullWidth
                             value={initiative}
                             onChange={(e) => setInitiative(e.target.value)}
+                            sx={{ fontSize: { xs: '14px', sm: '16px', md: '18px' } }}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -114,6 +116,7 @@ export default function Player(props) {
                             fullWidth
                             value={shield}
                             onChange={(e) => setShield(e.target.value)}
+                            sx={{ fontSize: { xs: '14px', sm: '16px', md: '18px' } }}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -123,15 +126,32 @@ export default function Player(props) {
                             fullWidth
                             value={retaliate}
                             onChange={(e) => setRetaliate(e.target.value)}
+                            sx={{ fontSize: { xs: '14px', sm: '16px', md: '18px' } }}
                         />
                     </Grid>
                     <Grid item xs={12} container justifyContent="center" spacing={2}>
                         <Grid item>
-                            <Button onClick={handleSave}>Save</Button>
+                            <Button
+                                onClick={handleSave}
+                                sx={{
+                                    fontSize: { xs: '14px', sm: '16px', md: '18px' },
+                                    padding: { xs: '6px 12px', sm: '8px 16px', md: '10px 20px' },
+                                }}
+                            >
+                                Save
+                            </Button>
                         </Grid>
                         <Grid item>
-                            
-                            <Button disabled={!id} onClick={handleRemove}>Remove</Button>
+                            <Button
+                                disabled={!id}
+                                onClick={handleRemove}
+                                sx={{
+                                    fontSize: { xs: '14px', sm: '16px', md: '18px' },
+                                    padding: { xs: '6px 12px', sm: '8px 16px', md: '10px 20px' },
+                                }}
+                            >
+                                Remove
+                            </Button>
                         </Grid>
                     </Grid>
                 </Grid>

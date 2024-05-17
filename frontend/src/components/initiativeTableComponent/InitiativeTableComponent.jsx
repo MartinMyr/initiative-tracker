@@ -31,14 +31,26 @@ export default function InitiativeTableComponent(props) {
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell width="45%" sx={{ fontSize: '32px', textAlign: 'center' }}>Name:</TableCell>
-                            <TableCell width="5%" sx={{ fontSize: '22px', textAlign: 'center', position: "relative" }}>
-                                <img className="icons" src="gloomhaven-shield.png" alt="" />
+                            <TableCell
+                                sx={{
+                                    fontSize: { xs: '18px', sm: '24px', md: '32px' },
+                                    fontWeight: 'bold',
+                                    textAlign: 'center'
+                                }}
+                                width="45%">
+                                Name
                             </TableCell>
-                            <TableCell width="5%" sx={{ fontSize: '22px', textAlign: 'center', position: "relative" }}>
-                                <img className="icons" src="retaliate-icon.png" alt="" />
+                            <TableCell width="5%"><img className="icons" src="gloomhaven-shield.png" alt="" /></TableCell>
+                            <TableCell width="5%"><img className="icons" src="retaliate-icon.png" alt="" /></TableCell>
+                            <TableCell
+                                sx={{
+                                    fontSize: { xs: '18px', sm: '24px', md: '32px' },
+                                    fontWeight: 'bold',
+                                    textAlign: 'center'
+                                }}
+                                width="45%">
+                                Initiative
                             </TableCell>
-                            <TableCell width="45%" sx={{ fontSize: '32px', textAlign: 'center' }}>Initiative:</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody className='table-body'>
@@ -47,14 +59,37 @@ export default function InitiativeTableComponent(props) {
                                 if (player.name) {
                                     return (
                                         <TableRow key={index}>
-                                            <TableCell width="45%" sx={{ fontSize: '22px', textAlign: 'center' }}>{player.name}</TableCell>
-                                            <TableCell width="5%" sx={{ fontSize: '22px', textAlign: 'center', position: "relative" }}>
+                                            <TableCell
+                                                sx={{
+                                                    fontSize: { xs: '14px', sm: '18px', md: '22px' },
+                                                    textAlign: 'center'
+                                                }}
+                                                width="45%">
+                                                {player.name}
+                                            </TableCell>
+                                            <TableCell
+                                                sx={{
+                                                    fontSize: { xs: '14px', sm: '18px', md: '22px' },
+                                                    textAlign: 'center'
+                                                }}
+                                                width="5%">
                                                 {player.shield}
                                             </TableCell>
-                                            <TableCell width="5%" sx={{ fontSize: '22px', textAlign: 'center', position: "relative" }}>
+                                            <TableCell
+                                                sx={{
+                                                    fontSize: { xs: '14px', sm: '18px', md: '22px' },
+                                                    textAlign: 'center'
+                                                }}
+                                                width="5%">
                                                 {player.retaliate}
                                             </TableCell>
-                                            <TableCell width="45%" sx={{ fontSize: '22px', textAlign: 'center', position: "relative" }}>
+                                            <TableCell
+                                                sx={{
+                                                    fontSize: { xs: '14px', sm: '18px', md: '22px' },
+                                                    textAlign: 'center',
+                                                    position: 'relative'
+                                                }}
+                                                width="45%">
                                                 {player.initiative}
                                                 <CreateIcon
                                                     onClick={() => editPlayer(player)}
