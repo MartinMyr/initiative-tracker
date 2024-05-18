@@ -1,20 +1,33 @@
-.home{
-    max-width: 1000px;
-    margin: 0 auto;
-}
+.home {
+    padding: 20px;
 
-.add-player, .clear-initiatives{
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-}
-.popup-image{
-    position: absolute;
-    z-index: 100;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 80%;
-    background-color:black;
+    .add-player, .clear-initiatives {
+        margin: 10px 0;
+        text-align: center;
+
+        Button {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        padding: 10px;
+
+        .add-player, .clear-initiatives {
+            Button {
+                font-size: 1rem;
+                padding: 8px 16px;
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        .add-player, .clear-initiatives {
+            Button {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+        }
+    }
 }
