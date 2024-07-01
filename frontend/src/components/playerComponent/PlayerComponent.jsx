@@ -132,17 +132,6 @@ export default function Player(props) {
                     <Grid item xs={12} container justifyContent="center" spacing={2}>
                         <Grid item>
                             <Button
-                                onClick={handleSave}
-                                sx={{
-                                    fontSize: { xs: '14px', sm: '16px', md: '18px' },
-                                    padding: { xs: '6px 12px', sm: '8px 16px', md: '10px 20px' },
-                                }}
-                            >
-                                Save
-                            </Button>
-                        </Grid>
-                        <Grid item>
-                            <Button
                                 disabled={!id}
                                 onClick={handleRemove}
                                 sx={{
@@ -151,6 +140,17 @@ export default function Player(props) {
                                 }}
                             >
                                 Remove
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                onClick={handleSave}
+                                sx={{
+                                    fontSize: { xs: '14px', sm: '16px', md: '18px' },
+                                    padding: { xs: '6px 12px', sm: '8px 16px', md: '10px 20px' },
+                                }}
+                            >
+                                Save
                             </Button>
                         </Grid>
                     </Grid>
