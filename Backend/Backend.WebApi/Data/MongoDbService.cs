@@ -23,9 +23,10 @@ public class MongoDbService
       var connectionString = _configuration.GetConnectionString("DbConnection");
       connectionString += _configuration.GetConnectionString("MongoDbUser") + ":";
       connectionString += _configuration.GetConnectionString("MongoDbPassword") + "@";
-      connectionString += _configuration.GetConnectionString("MongoDbCluster");
+      connectionString += _configuration.GetConnectionString("MongoDbCluster") + ".";
       connectionString += _configuration.GetConnectionString("MongoDbEndUri");
 
       return connectionString;
    }
 }
+
