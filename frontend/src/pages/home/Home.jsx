@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import InitiativeTableComponent from '../../components/initiativeTableComponent/InitiativeTableComponent';
 import PlayerComponent from '../../components/playerComponent/PlayerComponent';
+import ConfirmationDialog from '../../components/confirmationDialog/ConfirmationDialog';
 import Button from '@mui/material/Button';
 import axios from 'axios';
 import Pusher from 'pusher-js';
@@ -11,6 +12,7 @@ export default function Home() {
     const [localPlayerList, setLocalPlayerList] = useState([]);
     const [deletedIndex, setDeletedIndex] = useState([]);
     const [selectedPlayer, setSelectedPlayer] = useState(null);
+    const clearInitiativesText = "Are you sure you want to delete all initiatives?";
 
     useEffect(() => {
         fetchInitiatives();
@@ -102,11 +104,16 @@ export default function Home() {
                     Add player
                 </Button>
             </div>
-
             <div className="clear-initiatives">
-                <Button variant="contained" color="error" size="large" onClick={clearInitiatives}>
-                    Clear initiatives
-                </Button>
+                <ConfirmationDialog 
+                    continueAction={clearInitiatives}
+                    text={clearInitiativesText}
+                >
+                    
+                        <Button variant="contained" color="error" size="large">
+                            Clear initiatives
+                        </Button>
+                </ConfirmationDialog>
             </div>
         </div>
     );
