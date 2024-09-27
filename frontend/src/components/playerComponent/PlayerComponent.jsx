@@ -16,7 +16,7 @@ export default function Player(props) {
 
     useEffect(() => {
         if (props.player) {
-            setId(props.player._id || '');
+            setId(props.player.id || '');
             setName(props.player.name || '');
             setInitiative(props.player.initiative || '');
             setShield(props.player.shield || '');
@@ -27,25 +27,36 @@ export default function Player(props) {
 
     const createOrUpdatePlayer = async () => {
         let data = {
-            ...(id && { _id: id }),
+            ...(id && { id: id }),
             name: name,
-            initiative: initiative,
-            shield: shield,
-            retaliate: retaliate,
+            initiative: parseInt(initiative),
+            shield: parseInt(shield),
+            retaliate: parseInt(retaliate),
         };
 
-        await axios.post(`https://gloom-back.myrmarker.com/initiative`, data)
+        if(!data.id){
+            await axios.post(`https://gloom-back.myrmarker.com/api/User`, data)
             .then((res) => {
                 res.data;
-                setId(res.data._id);
+                setId(res.data.id);
             })
             .catch((error) => {
                 console.log(error);
             });
+        }else{
+            await axios.put(`https://gloom-back.myrmarker.com/api/User/${id}`, data)
+            .then((res) => {
+                res.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+        
     };
 
     const deletePlayer = async () => {
-        await axios.delete(`https://gloom-back.myrmarker.com/initiative/${id}`)
+        await axios.delete(`https://gloom-back.myrmarker.com/api/User/${id}`)
             .then(() => {
                 props.removePlayer(props.index);
             })
