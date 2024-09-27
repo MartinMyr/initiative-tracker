@@ -10,10 +10,12 @@ namespace Backend.WebApi.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IMongoCollection<User>? _users;
-    
-    public UserController(MongoDbService mongoDbService)
+    private readonly IConfiguration _configuration;
+
+    public UserController(MongoDbService mongoDbService, IConfiguration configuration)
     {
         _users = mongoDbService.Database?.GetCollection<User>("users");
+        _configuration = configuration;
     }
     
     [HttpGet]
@@ -36,24 +38,40 @@ public class UserController : ControllerBase
     {
         await _users.InsertOneAsync(user);
         
+        await PusherTriggerService.Trigger(_configuration, "" ,"tracker-channel", "update-initiative");
+        
         return CreatedAtAction(nameof(GetById), new {id = user.Id}, user);
     }
 
-    [HttpPut]
+    [HttpPut("{id}")]
     public async Task<ActionResult> Update(User user)
     {
         var filter = Builders<User>.Filter.Eq(x => x.Id, user.Id);
         await _users.ReplaceOneAsync(filter, user);
+        
+        await PusherTriggerService.Trigger(_configuration, "" ,"tracker-channel", "update-initiative");
 
         return Ok();
     }
 
-    [HttpDelete]
-    public async Task<ActionResult> Delete(string id)
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeleteById(string id)
     {
         var filter = Builders<User>.Filter.Eq(x => x.Id, id);
         await _users.DeleteOneAsync(filter);
-
+        
+        await PusherTriggerService.Trigger(_configuration, "" ,"tracker-channel", "update-initiative");
+        
+        return Ok();
+    }
+    
+    [HttpDelete]
+    public async Task<ActionResult> Delete()
+    {
+        await _users.DeleteManyAsync(Builders<User>.Filter.Empty);
+        
+        await PusherTriggerService.Trigger(_configuration, "" ,"tracker-channel", "update-initiative");
+        
         return Ok();
     }
 }

@@ -27,7 +27,7 @@ export default function Home() {
 
     const fetchInitiatives = async () => {
         await axios
-            .get(`https://gloom-back.myrmarker.com/initiatives`)
+            .get(`https://gloom-back.myrmarker.com/api/User`)
             .then((res) => {
                 setPlayerList(res.data);
             })
@@ -42,7 +42,7 @@ export default function Home() {
 
     const clearInitiatives = async () => {
         await axios
-            .delete(`https://gloom-back.myrmarker.com/initiatives`)
+            .delete(`https://gloom-back.myrmarker.com/api/User`)
             .then(() => {
                 setPlayerList([]);
                 setLocalPlayerList([]);
@@ -58,7 +58,7 @@ export default function Home() {
     };
 
     const editPlayer = (player) => {
-        if (!localPlayerList.find((item) => item._id === player._id)) {
+        if (!localPlayerList.find((item) => item.id === player.id)) {
             setLocalPlayerList([...localPlayerList, player]);
         }
         setSelectedPlayer(player);
